@@ -24,16 +24,17 @@ public class StreamDemo {
             System.out.println("Initial list is: " + l1);
 
             List<Integer> even_list = l1.stream().filter(n->n%2==0).toList();
-            System.out.println("list with even integers is: " + even_list);
+            System.out.println("Answer 1: list with even integers is: " + even_list);
 
             //Find all numbers greater than 50
             List<Integer> more_50 = l1.stream().filter(n-> n > 50).toList();
-             System.out.println("list with integers greater than 50 is: " + more_50);
+             System.out.println("Answer 2: list with integers greater than 50 is: " + more_50);
 
             //Convert all strings in a list to uppercase
+            System.out.println("Creating a list of string for the 4th question");
             List<String> names = List.of("alice", "bob", "charlie", "darla", "emma", "allison", "anna");
             List<String> upperCaseNames = names.stream().map(String::toUpperCase).toList();
-            System.out.println("List with upper case names is: " + upperCaseNames);
+            System.out.println("Answer 3: List with upper case names is: " + upperCaseNames);
 
             //Remove null elements from list
             ArrayList<String> words = new ArrayList<>();
@@ -50,20 +51,20 @@ public class StreamDemo {
             System.out.println("Initial word list with null is: " + words);
 
             List<String> not_null_words = words.stream().filter(Objects::nonNull).toList();
-            System.out.println("Filtered list where null is not there is: " + not_null_words);
+            System.out.println("Answer 4: Filtered list where null is not there is: " + not_null_words);
 
             // get length of each element in the list
             System.out.println("Working with the not_null_words list");
             List<Integer> words_length = not_null_words.stream().map(n->n.length()).toList();
-            System.out.println("For all the words in the not_null_list, each of their lengths are: " + words_length);
+            System.out.println("Answer 5: For all the words in the not_null_list, each of their lengths are: " + words_length);
 
             //finding people whose names start with A
             List<String> name_with_A = upperCaseNames.stream().filter(n-> n.startsWith("A")).toList();
-            System.out.println("People whose names start with A are as follows: " + name_with_A);
+            System.out.println("Answer 6: People whose names start with A are as follows: " + name_with_A);
 
             //finding the squares of numbers
             List<Integer> square_numbers = l1.stream().map(n->n*n).toList();
-            System.out.println("The square of the elements is: " + square_numbers);
+            System.out.println("Answer 7: The square of the elements is: " + square_numbers);
 
             //Creating employees
             Employee e1 = new Employee(1, "Alice", 54000, "alice.f@gmail.com");
@@ -74,14 +75,14 @@ public class StreamDemo {
 
             List<Employee> employees = List.of(e1,e2,e3,e4,e5);
             List<String> employee_names = employees.stream().filter(e -> e.getSalary() > 50000).map(Employee::getName).toList();
-            System.out.println("Employees with a salary higher than 50,000 are: " + employee_names);
+            System.out.println("Answer 8: Employees with a salary higher than 50,000 are: " + employee_names);
 
             List<String> emails = employees.stream().map(e->e.getEmail()).toList();
-            System.out.println("List of emails of employees are: " + emails);
+            System.out.println("Answer 9: List of emails of employees are: " + emails);
 
             //Finding the number of elements that are divisible by 3
             long count = l1.stream().filter(n->n%3==0).count();
-            System.out.println("Number of numbers in " + l1 + " which are divisible by 3 are: " + count);
+            System.out.println("Answer 10: Number of numbers in " + l1 + " which are divisible by 3 are: " + count);
 
         }
     }
