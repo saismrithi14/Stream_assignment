@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.*;
 public class Stream_API {
     public static void main(String[] args)
@@ -9,8 +10,9 @@ public class Stream_API {
                 "IT",
                 75000,
                 "john.smith@company.com",
-                Arrays.asList("Java", "Spring", "SQL")
+                Arrays.asList("Java", "Spring", "SQL", "Comunication", "Docker", "Kubernetes")
         );
+
 
         Employee emp2 = new Employee(
                 2,
@@ -27,7 +29,7 @@ public class Stream_API {
                 "Finance",
                 82000,
                 "michael.brown@company.com",
-                Arrays.asList("Accounting", "Excel", "Budgeting")
+                Arrays.asList("Accounting", "Excel", "Budgeting", "Communication")
         );
 
         Employee emp4 = new Employee(
@@ -36,7 +38,7 @@ public class Stream_API {
                 "Finance",
                 68000,
                 "emily.davis@company.com",
-                Arrays.asList("SEO", "Content Writing", "Social Media")
+                Arrays.asList("SEO", "Content Writing", "Social Media", "Communication")
         );
 
         Employee emp5 = new Employee(
@@ -45,7 +47,7 @@ public class Stream_API {
                 "Operations",
                 72000,
                 "david.wilson@company.com",
-                Arrays.asList("Project Management", "Logistics", "Leadership")
+                Arrays.asList("Project Management", "Logistics", "Leadership", "Communication")
         );
 
         Employee emp6 = new Employee(
@@ -54,7 +56,7 @@ public class Stream_API {
                 "IT",
                 45000,
                 "anna.taylor@company.com",
-                Arrays.asList("Microservices", "Docker", "Kubernetes")
+                Arrays.asList("Microservices", "Docker", "Kubernetes", "Java", "Communication")
         );
 
         //Question1: 1.	Convert list of strings into a single comma-separated string.
@@ -141,6 +143,100 @@ public class Stream_API {
         System.out.println("Given are the list of sentences: "+ sentences);
         List<String> words = sentences.stream().flatMap(sentence -> Arrays.stream(sentence.split(" "))).toList();
         System.out.println("All the words extracted from the sentences are: " + words);
+
+
+        System.out.println("\n=======================Question 13=====================================\n");
+        System.out.println("Given employees with list of skills, get unique skills.\n");
+        List<List<String>> all_skills = employees.stream().map(Employee::getSkills).toList();
+
+        //Converting list of strings and merging it into a single list
+        List<String> unique_skills = all_skills.stream().flatMap(List::stream).distinct().toList();
+        System.out.println("Unique skillset of all employees are: " + unique_skills);
+
+        System.out.println("\n=======================Question 14=====================================\n");
+        System.out.println("Given list of orders with list of items, get total items count.\n");
+
+        //Creating a list of objects with those items
+        Orders order1 = new Orders(1001, Arrays.asList("Laptop", "Mouse", "Keyboard"));
+
+        Orders order2 = new Orders(1002, Arrays.asList("Mouse", "Monitor"));
+
+        Orders order3 = new Orders(1003, Arrays.asList("Laptop", "Headphones"));
+
+        Orders order4 = new Orders(1004, Arrays.asList("Keyboard", "Mouse", "Mouse Pad"));
+
+        Orders order5 = new Orders(1005, Arrays.asList("Laptop", "Monitor", "Mouse"));
+
+        List<Orders> ordersList = Arrays.asList(order1, order2, order3, order4, order5);
+
+        //First map the objects to their lists
+        Map<String, Long> list_of_items = ordersList.stream().map(Orders::getItems).flatMap(List::stream).collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
+        System.out.println("The list of items are: " + list_of_items);
+
+
+        System.out.println("\n=======================Question 15=====================================\n");
+        System.out.println("Given nested list of integers, find sum of all elements.");
+        List<List<Integer>> integer_list = List.of(List.of(1,2,3), List.of(4,5,6,7,8), List.of(9,10,11,12));
+        System.out.println("The given list of integers are as follows: " + integer_list);
+
+        List<Integer> flattened_list = integer_list.stream().flatMap(List::stream).toList();
+        System.out.println("Flattened list produces: " + flattened_list);
+
+        int sum = flattened_list.stream().mapToInt(Integer::intValue).sum();
+        System.out.println("The total sum of elements in the list is: " + sum);
+
+
+        System.out.println("\n=======================Question 16=====================================\n");
+        System.out.println("Find product of all numbers using reduce.\n");
+        List<Integer> array = List.of(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        Optional<Integer> product = array.stream().reduce((acc, element) -> acc * element);
+        System.out.println("The product of the list: " + array + " is " + product);
+
+        System.out.println("\n=======================Question 17=====================================\n");
+        System.out.println("Find the longest string from a list of strings using reduce.\n");
+        List<String> word_list = Arrays.asList("Java", "Streams", "Reduce", "Example", "Tutorial");
+        Optional<String> longest_string = word_list.stream().reduce((longest, element) -> longest.length() > element.length()? longest: element);
+        System.out.println("The longest string of" + word_list + " is: " + longest_string);
+
+
+        System.out.println("\n=======================Question 18=====================================\n");
+        System.out.println("Concatenate the list of strings using reduce\n");
+        List<String> fruits = Arrays.asList("Apple", "Banana", "Cherry", "Date", "Elderberry");
+        System.out.println("The list of fruits are as follows: " + fruits);
+        String concatenated_results = fruits.stream().reduce("",(s, element) -> s + element);
+        System.out.println("The concatenated result is: " + concatenated_results);
+
+        System.out.println("\n=======================Question 19=====================================\n");
+        System.out.println("Find maximum salary from a list of salaries using reduce.\n");
+
+        List<Integer> salaries = Arrays.asList(45000, 72000, 56000, 88000, 61000, 95000);
+        Optional<Integer> greatest_salary = salaries.stream().reduce((maximum, element)-> maximum > element? maximum: element);
+        System.out.println("The maximum of the salary list: " + salaries + " is " + greatest_salary);
+
+        System.out.println("\n=======================Question 20=====================================\n");
+        System.out.println("Merge multiple maps using reduce\n");
+
+        List<Map<String, Integer>> listOfMaps = Arrays.asList(
+                new HashMap<>() {{ put("A", 10); put("B", 20); }},
+                new HashMap<>() {{ put("B", 30); put("C", 40); }},
+                new HashMap<>() {{ put("A", 5);  put("D", 50); }}
+        );
+
+        Map<String, Integer> final_map = listOfMaps.stream()
+                .reduce(new HashMap<>(), (modifiedMap, currentMap) -> {
+                    currentMap.forEach((key, value) ->
+                            modifiedMap.merge(key, value, Integer::sum)
+                    );
+                    return modifiedMap;
+                });
+
+        System.out.println("Final mapping is: " + final_map);
+
+
+
+
+
+
     }
 
 }
